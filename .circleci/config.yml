@@ -18,7 +18,7 @@ jobs:
             cd .circleci/ansible/
             BACKEND_IP=`cat inventory.txt | head -2 | tail -1`
             echo "Cnfiguring the server : ${BACKEND_IP}"
-            #ansible-playbook -i inventory.txt configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml
 
 workflows:
   default:

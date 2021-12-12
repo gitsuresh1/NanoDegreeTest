@@ -7,11 +7,16 @@ orbs:
 jobs:
   configure-infrastructure:
     docker:
-      - image: ansible/ansible:ubuntu1404
+      - image: alpine:latest
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints: [ "05:70:10:f4:bf:12:bb:a5:f4:a4:c3:9a:d6:d9:02:8a" ]
+      - run:
+          name: Configure server
+          command: |
+            sudo apt update
+            sudo apt install ansible
       - run:
           name: Configure server
           command: |

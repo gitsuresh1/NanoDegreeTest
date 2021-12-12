@@ -15,8 +15,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            apt update
-            apt install ansible
+            apk add --update ansible
       - run:
           name: Configure server
           command: |

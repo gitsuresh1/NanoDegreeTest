@@ -7,7 +7,7 @@ orbs:
 jobs:
   configure-infrastructure:
     docker:
-      - image: cimg/base:2020.01
+      - image: cimg/base:latest
     steps:
       - checkout
       - add_ssh_keys:

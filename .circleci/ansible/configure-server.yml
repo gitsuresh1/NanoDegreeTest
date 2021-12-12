@@ -13,9 +13,19 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    - name: Wait 600 seconds for target connection to become reachable/usable
+    - name: "wait 600 seconds for target connection to become reachable/usable."
       wait_for_connection:
         timeout: 600
+
+    - name: Check for Python
+        raw: test -e /usr/bin/python
+        changed_when: false
+        failed_when: false
+        register: check_python
+
+    - name: Install Python
+        raw: yum -y install python
+        when: check_python.rc != 0
 
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:

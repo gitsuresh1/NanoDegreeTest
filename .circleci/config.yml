@@ -1,52 +1,11 @@
-#Capstone Config
-version: 2.1
-
-orbs:
-  aws-eks: circleci/aws-eks@0.2.0
-  aws-ecr: circleci/aws-ecr@3.1.0
-  kubernetes: circleci/kubernetes@0.3.0
-
-jobs:
-  lint-app:
-    executor: aws-eks/python3
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            make setup
-            . venv/bin/activate
-            make install
-      - run:
-          name: run lint
-          command: |
-            . venv/bin/activate
-            make lint   
-
-  build-push-docker-image:
-    machine: true
-    working_directory: ~/app
-    steps:
-      - checkout
-      - run:
-          name: build and push docker image
-          command: |
-            #Login to docker hub
-            docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
-            # Build image and add a descriptive tag
-            docker build --tag=capstonedocker .
-            # List docker images
-            docker image ls
-            # Tag and push image to a docker repository
-            docker tag capstonedocker dockerjsb/capstonedocker
-            docker push dockerjsb/capstonedocker
-
-workflows:
-  deployment:
-    jobs:
-      - lint-app
-      #- build-push-docker-image:
-          #requires: [lint-app]
-      #- aws-eks/create-cluster:
-       #   cluster-name: capstonecluster
-        #  requires: [lint-app]
+  version: 2.1
+  orbs:
+    aws-eks: circleci/aws-eks@0.2.0
+    aws-ecr: circleci/aws-ecr@3.1.0
+    kubernetes: circleci/kubernetes@0.3.0
+  workflows:
+    deployment:
+      jobs:
+        - aws-eks/create-cluster:
+            cluster-name: eks-orb-demo-app-deployment
+            aws-region: $AWS_DEFAULT_REGION

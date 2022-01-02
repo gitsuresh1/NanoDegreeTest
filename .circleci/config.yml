@@ -40,47 +40,11 @@ jobs:
             docker tag capstonedocker dockerjsb/capstonedocker
             docker push dockerjsb/capstonedocker
 
-  deploy-to-cluster:
-    executor: aws-eks/python3
-    parameters:
-      cluster-name:
-        description: |
-          uda-cap
-        type: string
-    steps:
-      - checkout
-      - kubernetes/install
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
-          install-kubectl: true
-      - kubernetes/create-or-update-resource:
-          # get-rollout-status: true
-          resource-file-path: deployment.yaml
-          resource-name: deployment/capstonedeployment
-
-  check-cluster:
-    executor: aws-eks/python3
-    parameters:
-      cluster-name:
-        description: |
-          capstonecluster
-        type: string
-    steps:
-      - kubernetes/install
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
-      - run:
-          name: check cluster
-          command: |
-            kubectl get nodes -o wide
-            kubectl get deployment -A
-            kubectl get svc -A
-
 workflows:
   deployment:
     jobs:
-      - lint-app
-      - build-push-docker-image:
-          requires: [lint-app]
+#      - lint-app
+ #     - build-push-docker-image:
+  #        requires: [lint-app]
       - aws-eks/create-cluster:
           cluster-name: capstonecluster

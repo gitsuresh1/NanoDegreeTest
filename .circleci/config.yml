@@ -82,5 +82,3 @@ workflows:
       - lint-app
       - build-push-docker-image:
           requires: [lint-app]
-      - aws-eks/create-cluster:
-          cluster-name: mycapstone

@@ -30,10 +30,8 @@ jobs:
       - run:
           name: build and push docker image
           command: |
-            echo docker user name : ${DOCKER_USERNAME}
-            echo  docker user pwd : ${DOCKER_PASSWORD}
             #Login to docker hub
-            docker login --username ${DOCKER_USERNAME} --password-stdin
+            docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
             # Build image and add a descriptive tag
             docker build --tag=capstonedocker .
             # List docker images
@@ -81,6 +79,8 @@ jobs:
 workflows:
   deployment:
     jobs:
-      #- lint-app
-      - build-push-docker-image
-          #requires: [lint-app]
+      - lint-app
+      - build-push-docker-image:
+          requires: [lint-app]
+      - aws-eks/create-cluster:
+          cluster-name: capstonecluster

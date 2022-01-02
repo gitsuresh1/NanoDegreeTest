@@ -19,6 +19,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            which gzip
             make setup
             . venv/bin/activate
             make install
@@ -50,7 +51,8 @@ workflows:
   deployment:
     jobs:
       - lint-app
-      - build-push-docker-image:
-          requires: [lint-app]
+      #- build-push-docker-image:
+          #requires: [lint-app]
       - aws-eks/create-cluster:
           cluster-name: capstonecluster
+          requires: [lint-app]

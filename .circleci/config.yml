@@ -5,9 +5,6 @@ orbs:
   kubernetes: circleci/kubernetes@1.0
 
 executors:
-  pythonexecutor:
-    docker:
-      - image: circleci/python:3.7.3-stretch
   aws:
     docker:
       - image: amazon/aws-cli
@@ -15,7 +12,8 @@ executors:
 
 jobs:
   lint-app:
-    executor: pythonexecutor
+    docker:
+      - image: circleci/python:3.7.3-stretch
     steps:
       - checkout
       - run:

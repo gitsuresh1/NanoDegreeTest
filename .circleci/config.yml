@@ -13,8 +13,7 @@ orbs:
 
 jobs:
   lint-app:
-    docker:
-      - image: circleci/python:3.7.3-stretch
+    executor: python
     steps:
       - checkout
       - run:
@@ -27,7 +26,7 @@ jobs:
           name: run lint
           command: |
             . venv/bin/activate
-            make lint    
+            make lint   
 
   build-push-docker-image:
     machine: true
@@ -50,8 +49,8 @@ jobs:
 workflows:
   deployment:
     jobs:
-#      - lint-app
- #     - build-push-docker-image:
-  #        requires: [lint-app]
+      - lint-app
+     - build-push-docker-image:
+        requires: [lint-app]
       - aws-eks/create-cluster:
           cluster-name: capstonecluster

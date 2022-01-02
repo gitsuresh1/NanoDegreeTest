@@ -30,6 +30,8 @@ jobs:
       - run:
           name: build and push docker image
           command: |
+            echo docker user name : ${DOCKER_USERNAME}
+            echo  docker user pwd : ${DOCKER_PASSWORD}
             #Login to docker hub
             docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
             # Build image and add a descriptive tag

@@ -76,7 +76,6 @@ jobs:
             kubectl get deployment -A
             kubectl get svc -A
 
-#workflow
 workflows:
   deployment:
     jobs:
@@ -84,5 +83,4 @@ workflows:
       - build-push-docker-image:
           requires: [lint-app]
       - aws-eks/create-cluster:
-          cluster-name: capstonecluster
-          node-zones: us-east-1a,us-east-1b,us-east-1c
+          cluster-name: mycapstone

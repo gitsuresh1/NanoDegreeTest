@@ -9,11 +9,11 @@ setup:
 	# Create python virtualenv & source it
 	# source ~/.devops/bin/activate
 	python3 -m venv venv
-	apt-get update
-	curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
-	chmod +x ./kubectl
-	mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-	kubectl version
+	sudo apt-get update
+	sudo curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+	sudo chmod +x ./kubectl
+	sudo mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+	sudo kubectl version
 
 install:
 	# This should be run from inside a virtualenv

@@ -1,5 +1,5 @@
 #Capstone Config
-version: '2.1'
+version: 2.1
 executors:
   python:
     docker:
@@ -8,8 +8,8 @@ executors:
     docker:
       - image: amazon/aws-cli
 orbs:
-  aws-eks: circleci/aws-eks@1.0.3
-  kubernetes: circleci/kubernetes@0.11.2
+  aws-eks: circleci/aws-eks@2.0.0
+  kubernetes: circleci/kubernetes@1.0.2
 
 jobs:
   lint-app:

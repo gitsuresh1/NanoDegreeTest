@@ -10,7 +10,7 @@
 
   jobs:
     lint-app:
-      executor: python
+      executor: aws-eks/python3
       steps:
         - checkout
         - run:

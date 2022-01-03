@@ -9,6 +9,40 @@
       default: python:3.10.0-base
 
   jobs:
+    lint-app:
+      executor: python
+      steps:
+        - checkout
+        - run:
+            name: install dependencies
+            command: |
+              make setup
+              . venv/bin/activate
+              make install
+        - run:
+            name: run lint
+            command: |
+              . venv/bin/activate
+              make lint  
+
+    build-push-docker-image:
+      machine: true
+      working_directory: ~/app
+      steps:
+        - checkout
+        - run:
+            name: build and push docker image
+            command: |
+              #Login to docker hub
+              docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+              # Build image and add a descriptive tag
+              docker build --tag=capstonedocker .
+              # List docker images
+              docker image ls
+              # Tag and push image to a docker repository
+              docker tag capstonedocker dockerjsb/capstonedocker
+              docker push dockerjsb/capstonedocker
+
     # Creation of Cluster
     create-cluster:
       executor: aws-eks/python3
@@ -64,14 +98,34 @@
               kubectl get deployment
               kubectl get services -o wide
             name: Test cluster
+
+    create-deployment:
+      executor: aws-eks/python3
+      parameters:
+        cluster-name:
+          description: |
+            Name of the EKS cluster
+          type: string
+      steps:
+        - checkout
+        - aws-eks/update-kubeconfig-with-authenticator:
+            cluster-name: << parameters.cluster-name >>
+            install-kubectl: true
+        - kubernetes/create-or-update-resource:
+            get-rollout-status: true
+            resource-file-path: deployments/nginx-deployment.yaml
+            resource-name: deployments/capstonedeployment
+        - kubernetes/create-or-update-resource:
+            resource-file-path: deployments/app-service.yaml
   workflows:
     deployment:
       jobs:
         #- create-cluster:
          #   cluster-name: capstonecluster
-        - test-cluster:
+       # - test-cluster:
+        #    cluster-name: capstonecluster
+        - create-deployment:
             cluster-name: capstonecluster
-
 
 
 

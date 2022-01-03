@@ -123,10 +123,10 @@
       jobs:
         #- create-cluster:
          #   cluster-name: capstonecluster
-       # - test-cluster:
-        #    cluster-name: capstonecluster
-        - create-deployment:
+        - test-cluster:
             cluster-name: capstonecluster
+        #- create-deployment:
+         #   cluster-name: capstonecluster
 
 
 

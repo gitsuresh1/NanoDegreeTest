@@ -146,23 +146,9 @@
   workflows:
     deployment:
       jobs:
-        # - lint-app
-        #- build-push-docker-image:
-        #   requires:
-        #     - lint-app
-        #- create-cluster:
-        #   cluster-name: capstonecluster
-        #- create-deployment:
-         #    cluster-name: capstonecluster
-                #   requires:
-              #- build-push-docker-image
-            #- test-cluster:
-            #cluster-name: capstonecluster
-              #requires:
-              #- create-deployment
-        - delete-cluster
-              #            requires:
-            #- check-cluster
+        - hold:
+            type: approval
+        - lint-app
 
 
 

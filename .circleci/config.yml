@@ -155,8 +155,8 @@
             cluster-name: capstonecluster
         - create-deployment:
             cluster-name: capstonecluster
-              requires:
-                - create-cluster
+            requires:
+              - create-cluster
         - test-cluster:
             cluster-name: capstonecluster
               requires:

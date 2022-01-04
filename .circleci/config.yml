@@ -53,7 +53,6 @@
           type: string
           default: capstonecluster
       steps:
-        - checkout
         - run:
             name: Install the eksctl tool
             command: |
@@ -75,19 +74,9 @@
             release-tag: ''
         - aws-eks/create-cluster:
             cluster-name: capstonecluster
-            node-zones: "us-east-1a,us-east-1b,us-east-1c,us-east-1d,us-east-1f"
-            node-type: "t3.medium"
-            ssh-access: true
-            ssh-public-key: ./sshkeys/KeyPair_Virginia_us-east-1.pub
-            nodegroup-name: "capstoneclusternodegroup"
-            nodes: 2
-            nodes-min: 2
-            nodes-max: 2
-            max-pods-per-node: 2
-            node-ami-family: "AmazonLinux2"
-            node-private-networking: false
-            node-labels: "nodeowner=jsb,nodepurpose=testing"
+            node-type: t3.medium
             show-eksctl-command: true
+
       # Test the Cluster
     test-cluster:
       executor: aws-eks/python3
@@ -164,3 +153,26 @@
           #   - lint-app
         - create-cluster:
             cluster-name: capstonecluster
+        - create-deployment:
+            cluster-name: capstonecluster
+              requires:
+                - create-cluster
+        - test-cluster:
+            cluster-name: capstonecluster
+              requires:
+              - create-deployment
+        - hold:
+            type: approval
+            requires:
+              - test-cluster
+        - aws-eks/update-container-image:
+            cluster-name: capstonecluster
+            container-image-updates: mycapstone=dockerjsb/capstonedocker:2
+            post-steps:
+              - kubernetes/delete-resource:
+                  resource-names: mycapstone
+                  resource-types: deployment
+                  wait: true
+            record: true
+            requires: [hold]
+            resource-name: deployment/mycapstone

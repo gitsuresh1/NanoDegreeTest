@@ -148,7 +148,11 @@
       jobs:
         - hold:
             type: approval
-        - lint-app
+        - lint-app:
+            requires:
+              - hold
+
+
 
 
 

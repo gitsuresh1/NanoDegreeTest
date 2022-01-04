@@ -40,8 +40,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker:latest dockerjsb/capstonedocker:2
-              docker push dockerjsb/capstonedocker:2
+              docker tag capstonedocker dockerjsb/capstonedocker
+              docker push dockerjsb/capstonedocker
 
     # Creation of Cluster
     create-cluster:
@@ -74,8 +74,19 @@
             release-tag: ''
         - aws-eks/create-cluster:
             cluster-name: capstonecluster
-            node-type: t3.medium
-
+            node-type: "t3.medium"
+            ssh-access: true
+            ssh-public-key: /sshkeys/KeyPair_Virginia_us-east-1.pub
+            nodegroup-name: "capstoneclusternodegroup"
+            zones: "us-east-1a, us-east-1b,us-east-1c,us-east-1d,us-east-1f"
+            nodes: 4
+            nodes-min: 3
+            nodes-max: 4
+            max-pods-per-node: 2
+            node-ami-family: "AmazonLinux2"
+            node-private-networking: false
+            node-labels: "nodeowner=jsb,nodepurpose=testing"
+            show-eksctl-command: true
       # Test the Cluster
     test-cluster:
       executor: aws-eks/python3
@@ -146,12 +157,9 @@
   workflows:
     deployment:
       jobs:
-        - lint-app
-        - build-push-docker-image:
-           requires:
-             - lint-app
-
-
-
-
-
+        #- lint-app
+        #- build-push-docker-image:
+         #  requires:
+          #   - lint-app
+        - create-cluster:
+            cluster-name: capstonecluster

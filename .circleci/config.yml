@@ -40,8 +40,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker:latest dockerjsb/capstonedocker:1
-              docker push dockerjsb/capstonedocker:1
+              docker tag capstonedocker:latest dockerjsb/capstonedocker:2
+              docker push dockerjsb/capstonedocker:2
 
     # Creation of Cluster
     create-cluster:

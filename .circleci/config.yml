@@ -40,8 +40,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker dockerjsb/capstonedocker
-              docker push dockerjsb/capstonedocker
+              docker tag capstonedocker:latest dockerjsb/capstonedocker:1
+              docker push dockerjsb/capstonedocker:1
 
     # Creation of Cluster
     create-cluster:
@@ -146,12 +146,10 @@
   workflows:
     deployment:
       jobs:
-        - hold:
-            type: approval
-        - lint-app:
-            requires:
-              - hold
-
+        - lint-app
+        - build-push-docker-image:
+           requires:
+             - lint-app
 
 
 

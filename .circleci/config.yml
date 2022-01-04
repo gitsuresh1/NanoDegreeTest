@@ -159,7 +159,7 @@
               - create-cluster
         - test-cluster:
             cluster-name: capstonecluster
-              requires:
+            requires:
               - create-deployment
         - hold:
             type: approval

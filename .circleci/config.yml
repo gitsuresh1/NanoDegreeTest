@@ -53,6 +53,7 @@
           type: string
           default: capstonecluster
       steps:
+        - checkout
         - run:
             name: Install the eksctl tool
             command: |

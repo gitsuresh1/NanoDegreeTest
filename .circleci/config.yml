@@ -75,6 +75,7 @@
             release-tag: ''
         - aws-eks/create-cluster:
             cluster-name: capstonecluster
+            node-zones: "us-east-1a,us-east-1b,us-east-1c,us-east-1d,us-east-1f"
             node-type: "t3.medium"
             ssh-access: true
             ssh-public-key: ./sshkeys/KeyPair_Virginia_us-east-1.pub

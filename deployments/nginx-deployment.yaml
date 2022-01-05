@@ -21,7 +21,7 @@ spec:
         app: mycapstone
     spec:
       containers:
-        - image: dockerjsb/capstonedocker:3
+        - image: dockerjsb/capstonedocker:5
           imagePullPolicy: Always
           name: mycapstone
           ports:

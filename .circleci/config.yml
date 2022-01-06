@@ -154,7 +154,7 @@
       #  - create-cluster:
        #    cluster-name: capstonecluster3
         - create-deployment:
-           cluster-name: capstonecluster3
+            cluster-name: capstonecluster3
             requires:
            #   - create-cluster
               - build-push-docker-image

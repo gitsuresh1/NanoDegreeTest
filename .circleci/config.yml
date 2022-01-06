@@ -170,4 +170,6 @@
             container-image-updates: mycapstone=dockerjsb/capstonedocker:v2
             record: true
             resource-name: deployment/mycapstone
+            requires:
+              - build-push-docker-image
         #- delete-cluster

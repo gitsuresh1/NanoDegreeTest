@@ -149,26 +149,11 @@
   workflows:
     deployment:
       jobs:
-        - lint-app
-        - build-push-docker-image:
-            requires:
-            - lint-app
+        #- lint-app
+        #- build-push-docker-image:
+         #   requires:
+          #  - lint-app
         - create-deployment:
             cluster-name: capstonecluster3
-            requires:
-             - build-push-docker-image
-        - test-cluster:
-            cluster-name: capstonecluster3
-            requires:
-              - create-deployment
-        - hold:
-            type: approval
-            requires:
-              - test-cluster
-        - aws-eks/update-container-image:
-            cluster-name: capstonecluster3
-            container-image-updates: mycapstone=dockerjsb/capstonedocker
-            record: true
-            resource-name: deployment/mycapstone
-            requires:
-              - hold
+           # requires:
+            # - build-push-docker-image

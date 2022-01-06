@@ -151,12 +151,12 @@
         #- build-push-docker-image:
          #   requires:
           #   - lint-app
-          - create-cluster:
-              cluster-name: capstonecluster1
+        - create-cluster:
+           cluster-name: capstonecluster1
         #- create-deployment:
          #   cluster-name: capstonecluster1
           #  requires:
-              - create-cluster
+           #   - create-cluster
             #  - build-push-docker-image
         #- test-cluster:
          #   cluster-name: capstonecluster1

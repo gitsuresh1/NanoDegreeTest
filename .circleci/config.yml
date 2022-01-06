@@ -114,8 +114,9 @@
         - run:
             name: execute the envsubst
             command: |
-              echo export DOCKER_TAG_VERSION = ${CIRCLE_SHA1}
+              DOCKER_TAG_VERSION = ${CIRCLE_SHA1}
               echo $DOCKER_TAG_VERSION
+              export DOCKER_TAG_VERSION
               envsubst < deployments/nginx-deployment.yaml > confidential_config.txt
               cat confidential_config.txt
 

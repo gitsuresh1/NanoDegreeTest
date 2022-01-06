@@ -114,7 +114,7 @@
         - run:
             name: execute the envsubst
             command: |
-              DOCKER_TAG_VERSION=${CIRCLE_SHA1}
+              DOCKER_TAG_VERSION="dockerjsb/capstonedocker:${CIRCLE_SHA1}"
               export DOCKER_TAG_VERSION=${DOCKER_TAG_VERSION}
               envsubst < deployments/nginx-deployment.yaml > confidential_config.txt
               cat confidential_config.txt

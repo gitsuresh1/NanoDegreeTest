@@ -161,10 +161,14 @@
             cluster-name: capstonecluster3
             requires:
               - create-deployment
+        - hold:
+            type: approval
+            requires:
+              - test-cluster
         - aws-eks/update-container-image:
             cluster-name: capstonecluster3
             container-image-updates: mycapstone=dockerjsb/capstonedocker
             record: true
             resource-name: deployment/mycapstone
             requires:
-              - test-cluster
+              - hold

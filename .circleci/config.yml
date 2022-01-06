@@ -116,8 +116,8 @@
             command: |
               DOCKER_TAG_VERSION="dockerjsb/capstonedocker:"${CIRCLE_SHA1}
               export DOCKER_TAG_VERSION=${DOCKER_TAG_VERSION}
-              envsubst < deployments/nginx-deployment.yaml
-              cat deployments/nginx-deployment.yaml
+              envsubst < deployments/nginx-deployment.yaml > nginx-deployment.yaml
+              cat nginx-deployment.yaml
 
     delete-cluster:
       executor: aws-eks/python3

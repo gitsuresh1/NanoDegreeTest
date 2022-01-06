@@ -165,5 +165,4 @@
             cluster-name: capstonecluster3
             container-image-updates: mycapstone=dockerjsb/capstonedocker:${CIRCLE_SHA1}
             record: true
-            requires: [ hold ]
             resource-name: deployment/mycapstone

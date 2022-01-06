@@ -155,5 +155,11 @@
   workflows:
     deployment:
       jobs:
+        - lint-app
+        - build-push-docker-image:
+            requires:
+            - lint-app
         - create-deployment:
             cluster-name: capstonecluster3
+            requires:
+             - build-push-docker-image

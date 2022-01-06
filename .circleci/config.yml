@@ -157,3 +157,7 @@
             cluster-name: capstonecluster3
             requires:
              - build-push-docker-image
+        - test-cluster:
+            cluster-name: capstonecluster3
+            requires:
+              - create-deployment

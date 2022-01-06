@@ -161,3 +161,9 @@
             cluster-name: capstonecluster3
             requires:
               - create-deployment
+        - aws-eks/update-container-image:
+            cluster-name: capstonecluster3
+            container-image-updates: mycapstone=dockerjsb/capstonedocker:${CIRCLE_SHA1}
+            record: true
+            requires: [ hold ]
+            resource-name: deployment/mycapstone

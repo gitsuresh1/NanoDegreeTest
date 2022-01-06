@@ -167,9 +167,9 @@
         #   - test-cluster
         - aws-eks/update-container-image:
             cluster-name: capstonecluster5
-            container-image-updates: mycapstone=dockerjsb/capstonedocker:v2
+            container-image-updates: mycapstone1=dockerjsb/capstonedocker:v2
             record: true
-            resource-name: deployment/mycapstone
+            resource-name: deployment/mycapstone1
             requires:
               - build-push-docker-image
         #- delete-cluster

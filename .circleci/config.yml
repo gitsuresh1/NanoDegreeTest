@@ -152,7 +152,7 @@
          #   requires:
           #   - lint-app
         - create-cluster:
-           cluster-name: capstonecluster2
+           cluster-name: capstonecluster3
         #- create-deployment:
          #   cluster-name: capstonecluster1
           #  requires:

@@ -118,7 +118,7 @@
             get-rollout-status: true
             resource-file-path: deployments/nginx-deployment.yaml
             resource-name: deployments/mycapstone
-            envsubst: true
+            #envsubst: true
         - kubernetes/create-or-update-resource:
             resource-file-path: deployments/app-service.yaml
     delete-cluster:
@@ -163,7 +163,7 @@
               - create-deployment
         - aws-eks/update-container-image:
             cluster-name: capstonecluster3
-            container-image-updates: mycapstone=dockerjsb/capstonedocker:${CIRCLE_SHA1}
+            container-image-updates: mycapstone=dockerjsb/capstonedocker
             record: true
             resource-name: deployment/mycapstone
             requires:

@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mycapstone
+  name: mycapstone1
   labels:
-    app: mycapstone
+    app: mycapstone1
   namespace: default
 spec:
   replicas: 5
   selector:
     matchLabels:
-      app: mycapstone
+      app: mycapstone1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,12 +18,12 @@ spec:
   template:
     metadata:
       labels:
-        app: mycapstone
+        app: mycapstone1
     spec:
       containers:
         - image: dockerjsb/capstonedocker:blue
           imagePullPolicy: Always
-          name: mycapstone
+          name: mycapstone1
           ports:
             - containerPort: 80
           readinessProbe:

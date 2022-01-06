@@ -41,8 +41,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker dockerjsb/capstonedocker:v2
-              docker push dockerjsb/capstonedocker:v2
+              docker tag capstonedocker dockerjsb/capstonedocker:v3
+              docker push dockerjsb/capstonedocker:v3
 
     # Creation of Cluster
     create-cluster:
@@ -157,17 +157,17 @@
          #   cluster-name: capstonecluster5
           #  requires:
            #   - build-push-docker-image
-        #- create-deployment:
-         #   cluster-name: capstonecluster5
-          #  requires:
-           # - create-cluster
+        - create-deployment:
+            cluster-name: capstonecluster5
+            requires:
+            - build-push-docker-image
         #- hold:
         #   type: approval
         #  requires:
         #   - test-cluster
         - aws-eks/update-container-image:
             cluster-name: capstonecluster5
-            container-image-updates: mycapstone1=dockerjsb/capstonedocker:v2
+            container-image-updates: mycapstone1=dockerjsb/capstonedocker:v3
             record: true
             resource-name: deployment/mycapstone1
             requires:

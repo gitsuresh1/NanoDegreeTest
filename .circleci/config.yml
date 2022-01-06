@@ -166,3 +166,5 @@
             container-image-updates: mycapstone=dockerjsb/capstonedocker:${CIRCLE_SHA1}
             record: true
             resource-name: deployment/mycapstone
+            requires:
+              - test-cluster

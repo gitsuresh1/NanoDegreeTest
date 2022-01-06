@@ -2,7 +2,6 @@
   orbs:
     aws-eks: circleci/aws-eks@1.1.0
     kubernetes: circleci/kubernetes@0.4.0
-    envsubst: sawadashota/envsubst@volatile
 
   parameters:
     docker_image:
@@ -110,8 +109,15 @@
           type: string
       steps:
         - checkout
-        - envsubst/install
-        - run: which envsubst
+        - aws-eks/update-kubeconfig-with-authenticator:
+            cluster-name: << parameters.cluster-name >>
+            install-kubectl: true
+        - kubernetes/create-or-update-resource:
+            get-rollout-status: true
+            resource-file-path: deployments/nginx-deployment.yaml
+            resource-name: deployments/mycapstone
+        - kubernetes/create-or-update-resource:
+            resource-file-path: deployments/app-service.yaml
 
     delete-cluster:
       executor: aws-eks/python3
@@ -141,5 +147,31 @@
   workflows:
     deployment:
       jobs:
+        - lint-app
+        - build-push-docker-image:
+            requires:
+             - lint-app
+      #  - create-cluster:
+       #    cluster-name: capstonecluster3
         - create-deployment:
             cluster-name: capstonecluster3
+            requires:
+           #   - create-cluster
+              - build-push-docker-image
+        #- test-cluster:
+         #   cluster-name: capstonecluster3
+          #  requires:
+           #   - create-deployment
+        #- hold:
+         #   type: approval
+          #  requires:
+           #   - test-cluster
+        #- aws-eks/update-container-image:
+         #   cluster-name: capstonecluster3
+          #  container-image-updates: mycapstone=dockerjsb/capstonedocker:green
+           # record: true
+            #requires: [hold]
+            #resource-name: deployment/mycapstone
+          #- delete-cluster:
+          #   requires:
+          #    - check-cluster

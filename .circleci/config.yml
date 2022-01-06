@@ -41,8 +41,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker:latest dockerjsb/capstonedocker:${CIRCLE_SHA1}
-              docker push dockerjsb/capstonedocker:${CIRCLE_SHA1}
+              docker tag capstonedocker dockerjsb/capstonedocker
+              docker push dockerjsb/capstonedocker
 
     # Creation of Cluster
     create-cluster:
@@ -164,6 +164,11 @@
         - aws-eks/update-container-image:
             cluster-name: capstonecluster3
             container-image-updates: mycapstone=dockerjsb/capstonedocker
+            post-steps:
+              - kubernetes/delete-resource:
+                  resource-names: mycapstone
+                  resource-types: deployment
+                  wait: true
             record: true
             resource-name: deployment/mycapstone
             requires:

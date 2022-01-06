@@ -51,7 +51,7 @@
           description: |
             Name of the EKS cluster
           type: string
-          default: capstonecluster1
+          default: capstonecluster3
       steps:
         - run:
             name: Install the eksctl tool
@@ -73,7 +73,7 @@
         - aws-eks/install-aws-iam-authenticator:
             release-tag: ''
         - aws-eks/create-cluster:
-            cluster-name: capstonecluster1
+            cluster-name: capstonecluster3
             node-type: t3.medium
             show-eksctl-command: true
 
@@ -140,7 +140,7 @@
               $SUDO mv eksctl_download/eksctl /usr/local/bin/
               rmdir eksctl_download
         - aws-eks/delete-cluster:
-            cluster-name: capstonecluster1
+            cluster-name: capstonecluster3
             aws-region: $AWS_DEFAULT_REGION
             wait: true
 
@@ -154,12 +154,12 @@
         - create-cluster:
            cluster-name: capstonecluster3
         #- create-deployment:
-         #   cluster-name: capstonecluster1
+         #   cluster-name: capstonecluster3
           #  requires:
            #   - create-cluster
             #  - build-push-docker-image
         #- test-cluster:
-         #   cluster-name: capstonecluster1
+         #   cluster-name: capstonecluster3
           #  requires:
            #   - create-deployment
         #- hold:
@@ -167,7 +167,7 @@
           #  requires:
            #   - test-cluster
         #- aws-eks/update-container-image:
-         #   cluster-name: capstonecluster1
+         #   cluster-name: capstonecluster3
           #  container-image-updates: mycapstone=dockerjsb/capstonedocker:green
            # record: true
             #requires: [hold]

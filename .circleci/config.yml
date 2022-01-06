@@ -111,7 +111,11 @@
       steps:
         - checkout
         - envsubst/install
-        - run: which envsubst
+        - run:
+            name: execute the envsubst
+            command: |
+              DOCKER_TAG_VERSION=${CIRCLE_SHA1}
+              echo $DOCKER_TAG_VERSION
 
 
     delete-cluster:

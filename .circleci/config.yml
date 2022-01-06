@@ -147,6 +147,31 @@
   workflows:
     deployment:
       jobs:
-          - delete-cluster
+        #- lint-app
+        #- build-push-docker-image:
+         #   requires:
+          #   - lint-app
+        - create-cluster:
+           cluster-name: capstonecluster1
+        #- create-deployment:
+         #   cluster-name: capstonecluster1
+          #  requires:
+              - create-cluster
+            #  - build-push-docker-image
+        #- test-cluster:
+         #   cluster-name: capstonecluster1
+          #  requires:
+           #   - create-deployment
+        #- hold:
+         #   type: approval
+          #  requires:
+           #   - test-cluster
+        #- aws-eks/update-container-image:
+         #   cluster-name: capstonecluster1
+          #  container-image-updates: mycapstone=dockerjsb/capstonedocker:green
+           # record: true
+            #requires: [hold]
+            #resource-name: deployment/mycapstone
+          #- delete-cluster:
           #   requires:
           #    - check-cluster

@@ -21,7 +21,7 @@ spec:
         app: mycapstone
     spec:
       containers:
-        - image: dockerjsb/capstonedocker:${CIRCLE_SHA1}
+        - image: dockerjsb/capstonedocker:$DOCKER_TAG_VERSION
           imagePullPolicy: Always
           name: mycapstone
           ports:

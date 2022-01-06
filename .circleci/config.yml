@@ -116,7 +116,8 @@
             command: |
               DOCKER_TAG_VERSION=${CIRCLE_SHA1}
               echo $DOCKER_TAG_VERSION
-
+              envsubst < deployments/nginx-deployment.yaml > confidential_config.txt
+              cat confidential_config.txt
 
     delete-cluster:
       executor: aws-eks/python3

@@ -41,8 +41,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker dockerjsb/capstonedocker:v1
-              docker push dockerjsb/capstonedocker:v1
+              docker tag capstonedocker dockerjsb/capstonedocker:v2
+              docker push dockerjsb/capstonedocker:v2
 
     # Creation of Cluster
     create-cluster:
@@ -153,22 +153,21 @@
         - build-push-docker-image:
             requires:
             - lint-app
-        - create-cluster:
-            cluster-name: capstonecluster5
-            requires:
-              - build-push-docker-image
-        - create-deployment:
-            cluster-name: capstonecluster5
-            requires:
-            - create-cluster
+        #- create-cluster:
+         #   cluster-name: capstonecluster5
+          #  requires:
+           #   - build-push-docker-image
+        #- create-deployment:
+         #   cluster-name: capstonecluster5
+          #  requires:
+           # - create-cluster
         #- hold:
         #   type: approval
         #  requires:
         #   - test-cluster
-        #- aws-eks/update-container-image:
-        #   cluster-name: capstonecluster5
-        #  container-image-updates: mycapstone=dockerjsb/capstonedocker:green
-        # record: true
-        #requires: [hold]
-        #resource-name: deployment/mycapstone
+        - aws-eks/update-container-image:
+            cluster-name: capstonecluster5
+            container-image-updates: mycapstone=dockerjsb/capstonedocker:v2
+            record: true
+            resource-name: deployment/mycapstone
         #- delete-cluster

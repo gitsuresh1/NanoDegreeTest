@@ -41,8 +41,8 @@
               # List docker images
               docker image ls
               # Tag and push image to a docker repository
-              docker tag capstonedocker dockerjsb/capstonedocker
-              docker push dockerjsb/capstonedocker
+              docker tag capstonedocker dockerjsb/capstonedocker:v1
+              docker push dockerjsb/capstonedocker:v1
 
     # Creation of Cluster
     create-cluster:
@@ -52,7 +52,7 @@
           description: |
             Name of the EKS cluster
           type: string
-          default: capstonecluster3
+          default: capstonecluster5
       steps:
         - run:
             name: Install the eksctl tool
@@ -74,7 +74,7 @@
         - aws-eks/install-aws-iam-authenticator:
             release-tag: ''
         - aws-eks/create-cluster:
-            cluster-name: capstonecluster3
+            cluster-name: capstonecluster5
             node-type: t3.medium
             show-eksctl-command: true
 
@@ -142,19 +142,33 @@
               $SUDO mv eksctl_download/eksctl /usr/local/bin/
               rmdir eksctl_download
         - aws-eks/delete-cluster:
-            cluster-name: capstonecluster3
+            cluster-name: capstonecluster5
             aws-region: $AWS_DEFAULT_REGION
             wait: true
 
   workflows:
     deployment:
       jobs:
-        #- lint-app
-        #- build-push-docker-image:
-         #   requires:
-          #  - lint-app
-        #- create-deployment:
-         #   cluster-name: capstonecluster3
-           # requires:
-            # - build-push-docker-image
-        - delete-cluster
+        - lint-app
+        - build-push-docker-image:
+            requires:
+            - lint-app
+        - create-cluster:
+            cluster-name: capstonecluster5
+            requires:
+              - build-push-docker-image
+        - create-deployment:
+            cluster-name: capstonecluster5
+            requires:
+            - create-cluster
+        #- hold:
+        #   type: approval
+        #  requires:
+        #   - test-cluster
+        #- aws-eks/update-container-image:
+        #   cluster-name: capstonecluster5
+        #  container-image-updates: mycapstone=dockerjsb/capstonedocker:green
+        # record: true
+        #requires: [hold]
+        #resource-name: deployment/mycapstone
+        #- delete-cluster
